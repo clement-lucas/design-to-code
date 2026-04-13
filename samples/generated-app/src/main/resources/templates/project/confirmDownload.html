@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ダウンロード確認')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>ダウンロード要求確認</h2>
+    <p>ユーザ別従事プロジェクト一覧のダウンロードを要求します。よろしいですか？</p>
+    <form th:action="@{/project/download/execute}" method="post">
+        <button type="submit" class="btn btn-success">要求</button>
+        <button type="submit" name="back" value="back" class="btn btn-secondary ms-2">戻る</button>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

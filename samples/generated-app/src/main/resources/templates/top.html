@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('TOPメニュー')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>TOPメニュー</h2>
+    <p>ようこそ、<span th:text="${userName}">ユーザ</span> さん</p>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">プロジェクト</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a th:href="@{/project/search}" class="btn btn-outline-primary w-100">
+                                プロジェクト検索
+                            </a>
+                        </li>
+                        <li class="mb-2" sec:authorize="hasRole('PROJECT_MANAGER')">
+                            <a th:href="@{/project/create}" class="btn btn-outline-success w-100">
+                                プロジェクト登録
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">データ入出力</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a th:href="@{/project/download}" class="btn btn-outline-info w-100">
+                                ユーザ別従事プロジェクトダウンロード
+                            </a>
+                        </li>
+                        <li class="mb-2" sec:authorize="hasRole('PROJECT_MANAGER')">
+                            <a th:href="@{/project/upload}" class="btn btn-outline-warning w-100">
+                                プロジェクトアップロード
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

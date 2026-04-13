@@ -1,0 +1,33 @@
+# Build artifacts
+target/
+*.class
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary extraction outputs
+docs_output.txt
+drawings_output.txt
+extracted_images/
+*_output.txt
+
+# Local copies of design docs
+*.xlsm
+!samples/design-docs/**
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd

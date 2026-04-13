@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ログイン')}"></head>
+<body class="bg-light">
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>プロジェクト管理システム</h4>
+                    <small>ログイン</small>
+                </div>
+                <div class="card-body">
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        ログインに失敗しました。ログインIDまたはパスワードが誤っています。
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-info">
+                        ログアウトしました。
+                    </div>
+                    <div th:if="${param.expired}" class="alert alert-warning">
+                        セッションの有効期限が切れました。再度ログインしてください。
+                    </div>
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="loginId" class="form-label">ログインID</label>
+                            <input type="text" id="loginId" name="loginId"
+                                   class="form-control" maxlength="20" required autofocus/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">パスワード</label>
+                            <input type="password" id="userPassword" name="userPassword"
+                                   class="form-control" maxlength="64" required/>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">ログイン</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

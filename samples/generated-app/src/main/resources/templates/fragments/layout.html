@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${title}">Proman</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<!-- Header -->
+<nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">プロジェクト管理システム</a>
+        <div class="navbar-nav ms-auto" th:if="${#authorization.expression('isAuthenticated()')}">
+            <span class="navbar-text text-white me-3"
+                  th:text="${#authentication.principal.kanjiName} + ' さん'">ユーザ</span>
+            <a class="btn btn-outline-light btn-sm" th:href="@{/logout}">ログアウト</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Footer -->
+<footer th:fragment="footer" class="mt-5 py-3 bg-light text-center">
+    <small class="text-muted">&copy; プロジェクト管理システム</small>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+</footer>
+
+</body>
+</html>

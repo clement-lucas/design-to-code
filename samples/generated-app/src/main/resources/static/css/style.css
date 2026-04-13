@@ -1,0 +1,39 @@
+/* Proman - Custom Styles */
+
+body {
+    background-color: #f8f9fa;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+table th.table-light {
+    background-color: #e9ecef;
+    white-space: nowrap;
+}
+
+.table-sm td, .table-sm th {
+    padding: 0.4rem;
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.text-danger {
+    font-weight: bold;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}

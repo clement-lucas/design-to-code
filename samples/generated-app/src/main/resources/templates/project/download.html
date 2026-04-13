@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ダウンロード')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>ユーザ別従事プロジェクトダウンロード</h2>
+
+    <div th:if="${projectsByUser}" class="card p-3 mb-3">
+        <p>ファイル名: <span th:text="${projectsByUser.fileName}">file.csv</span></p>
+        <p>作成日時: <span th:text="${#temporals.format(projectsByUser.createdAt, 'yyyy/MM/dd HH:mm:ss')}">2024/01/01</span></p>
+        <a th:href="@{/project/download/file}" class="btn btn-info">ダウンロード</a>
+    </div>
+
+    <div th:unless="${projectsByUser}" class="alert alert-info">
+        ダウンロード可能なファイルはありません。要求を行ってください。
+    </div>
+
+    <form th:action="@{/project/download/confirm}" method="post" class="mt-3">
+        <button type="submit" class="btn btn-primary">ダウンロード要求</button>
+        <a th:href="@{/}" class="btn btn-secondary ms-2">戻る</a>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('顧客検索')}"></head>
+<body>
+<div class="container mt-3">
+    <h5>顧客検索</h5>
+
+    <form th:action="@{/client/search/search}" th:object="${searchForm}" method="get" class="card p-3 mb-3">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="form-label">顧客名</label>
+                <input type="text" th:field="*{clientName}" class="form-control" maxlength="128"/>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">業種</label>
+                <select th:field="*{industryCode}" class="form-select">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="entry : ${industryClasses}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">検索</button>
+    </form>
+
+    <div th:if="${searchExecuted}">
+        <table th:if="${clients != null && !clients.empty}" class="table table-bordered table-sm table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>顧客ID</th>
+                    <th>顧客名</th>
+                    <th>業種</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients}">
+                    <td th:text="${client.clientId}">1</td>
+                    <td th:text="${client.clientName}">Client</td>
+                    <td th:text="${industryClasses[client.industryCode]}">Industry</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                th:onclick="|selectClient('${client.clientId}', '${client.clientName}')|">選択</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p th:if="${clients == null || clients.empty}" class="text-muted">条件に一致する顧客がありません。</p>
+    </div>
+</div>
+<script>
+function selectClient(clientId, clientName) {
+    if (window.opener) {
+        window.opener.setClient(clientId, clientName);
+        window.close();
+    }
+}
+</script>
+</body>
+</html>

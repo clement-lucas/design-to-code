@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: proman
+  datasource:
+    url: jdbc:h2:mem:proman;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      encoding: UTF-8
+
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+  error:
+    include-stacktrace: always
+    include-message: always
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.thymeleaf: DEBUG
+
+# Application-specific settings
+app:
+  security:
+    max-failed-count: 5
+  batch:
+    output-dir: ./batch-output
+  login:
+    session-key-user-context: userContext

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('アップロード確認')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>プロジェクト一括登録確認</h2>
+    <p>以下のファイルをアップロードします。よろしいですか？</p>
+    <table class="table table-bordered">
+        <tr><th class="table-light" style="width:30%">ファイル名</th><td th:text="${fileName}">file.csv</td></tr>
+        <tr><th class="table-light">ファイルサイズ</th><td th:text="${fileSize + ' bytes'}">0 bytes</td></tr>
+    </table>
+    <form th:action="@{/project/upload/execute}" th:object="${form}" method="post" enctype="multipart/form-data">
+        <input type="file" th:field="*{projectFile}" style="display:none"/>
+        <button type="submit" class="btn btn-success">アップロード</button>
+        <button type="submit" name="back" value="back" class="btn btn-secondary ms-2">戻る</button>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

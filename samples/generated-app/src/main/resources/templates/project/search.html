@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('プロジェクト検索')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>プロジェクト検索</h2>
+
+    <form th:action="@{/project/search/search}" th:object="${searchForm}" method="get" class="card p-3 mb-4">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="form-label">プロジェクト名</label>
+                <input type="text" th:field="*{projectName}" class="form-control" maxlength="128"/>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト種別</label>
+                <select th:field="*{projectType}" class="form-select">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="entry : ${projectTypes}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト分類</label>
+                <select th:field="*{projectClass}" class="form-select">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="entry : ${projectClasses}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト開始日(FROM)</label>
+                <input type="date" th:field="*{projectStartDateFrom}" class="form-control"/>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト開始日(TO)</label>
+                <input type="date" th:field="*{projectStartDateTo}" class="form-control"/>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト終了日(FROM)</label>
+                <input type="date" th:field="*{projectEndDateFrom}" class="form-control"/>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">プロジェクト終了日(TO)</label>
+                <input type="date" th:field="*{projectEndDateTo}" class="form-control"/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">組織</label>
+                <select th:field="*{organizationId}" class="form-select">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="org : ${organizations}" th:value="${org.organizationId}" th:text="${org.organizationName}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">検索</button>
+            <a th:href="@{/}" class="btn btn-secondary">戻る</a>
+        </div>
+    </form>
+
+    <!-- Search Results -->
+    <div th:if="${searchExecuted}">
+        <div th:if="${errorMessage}" class="alert alert-warning" th:text="${errorMessage}"></div>
+
+        <div th:if="${projects != null && !projects.empty}">
+            <p>検索結果: <span th:text="${projects.totalElements}">0</span> 件</p>
+            <table class="table table-bordered table-hover table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>プロジェクトID</th>
+                        <th>プロジェクト名</th>
+                        <th>プロジェクト種別</th>
+                        <th>開始日</th>
+                        <th>終了日</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="project : ${projects.content}">
+                        <td>
+                            <a th:href="@{/project/detail(projectId=${project.projectId})}"
+                               th:text="${project.projectId}">1</a>
+                        </td>
+                        <td th:text="${project.projectName}">Project</td>
+                        <td th:text="${projectTypes[project.projectType]}">Type</td>
+                        <td th:text="${#temporals.format(project.projectStartDate, 'yyyy/MM/dd')}">2024/01/01</td>
+                        <td th:text="${#temporals.format(project.projectEndDate, 'yyyy/MM/dd')}">2024/12/31</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav th:if="${projects.totalPages > 1}">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${projects.first} ? 'disabled'">
+                        <a class="page-link" th:href="@{/project/search/search(pageNumber=${projects.number - 1})}">前へ</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, projects.totalPages - 1)}"
+                        th:classappend="${i == projects.number} ? 'active'">
+                        <a class="page-link" th:href="@{/project/search/search(pageNumber=${i})}" th:text="${i + 1}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${projects.last} ? 'disabled'">
+                        <a class="page-link" th:href="@{/project/search/search(pageNumber=${projects.number + 1})}">次へ</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

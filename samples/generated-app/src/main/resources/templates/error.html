@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('エラー')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>エラーが発生しました</h2>
+    <div class="alert alert-danger">
+        <p th:text="${errorMessage ?: 'システムエラーが発生しました。管理者にお問い合わせください。'}"></p>
+    </div>
+    <a th:href="@{/}" class="btn btn-primary">TOPに戻る</a>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

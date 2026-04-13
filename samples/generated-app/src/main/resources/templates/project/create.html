@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('プロジェクト登録')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>プロジェクト登録</h2>
+
+    <form th:action="@{/project/create/confirm}" th:object="${form}" method="post">
+        <div class="row mb-2">
+            <div class="col-md-8">
+                <label class="form-label">プロジェクト名 <span class="text-danger">*</span></label>
+                <input type="text" th:field="*{projectName}" class="form-control"
+                       th:classappend="${#fields.hasErrors('projectName')} ? 'is-invalid'" maxlength="128"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectName')}" th:errors="*{projectName}"></div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label class="form-label">プロジェクト種別 <span class="text-danger">*</span></label>
+                <select th:field="*{projectType}" class="form-select"
+                        th:classappend="${#fields.hasErrors('projectType')} ? 'is-invalid'">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="entry : ${projectTypes}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectType')}" th:errors="*{projectType}"></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">プロジェクト分類 <span class="text-danger">*</span></label>
+                <select th:field="*{projectClass}" class="form-select"
+                        th:classappend="${#fields.hasErrors('projectClass')} ? 'is-invalid'">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="entry : ${projectClasses}" th:value="${entry.key}" th:text="${entry.value}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectClass')}" th:errors="*{projectClass}"></div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label class="form-label">プロジェクト開始日 <span class="text-danger">*</span></label>
+                <input type="date" th:field="*{projectStartDate}" class="form-control"
+                       th:classappend="${#fields.hasErrors('projectStartDate')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectStartDate')}" th:errors="*{projectStartDate}"></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">プロジェクト終了日 <span class="text-danger">*</span></label>
+                <input type="date" th:field="*{projectEndDate}" class="form-control"
+                       th:classappend="${#fields.hasErrors('projectEndDate')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectEndDate')}" th:errors="*{projectEndDate}"></div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label class="form-label">組織 <span class="text-danger">*</span></label>
+                <select th:field="*{organizationId}" class="form-select"
+                        th:classappend="${#fields.hasErrors('organizationId')} ? 'is-invalid'">
+                    <option value="">-- 選択 --</option>
+                    <option th:each="org : ${organizations}" th:value="${org.organizationId}" th:text="${org.organizationName}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('organizationId')}" th:errors="*{organizationId}"></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">顧客</label>
+                <div class="input-group">
+                    <input type="hidden" th:field="*{clientId}"/>
+                    <input type="text" id="clientName" class="form-control" readonly placeholder="顧客を選択"/>
+                    <button type="button" class="btn btn-outline-secondary" onclick="openClientSearch()">選択</button>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label class="form-label">PM <span class="text-danger">*</span></label>
+                <input type="text" th:field="*{projectManager}" class="form-control"
+                       th:classappend="${#fields.hasErrors('projectManager')} ? 'is-invalid'" maxlength="128"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectManager')}" th:errors="*{projectManager}"></div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">PL <span class="text-danger">*</span></label>
+                <input type="text" th:field="*{projectLeader}" class="form-control"
+                       th:classappend="${#fields.hasErrors('projectLeader')} ? 'is-invalid'" maxlength="128"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('projectLeader')}" th:errors="*{projectLeader}"></div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label class="form-label">売上高</label>
+                <input type="number" th:field="*{sales}" class="form-control"
+                       th:classappend="${#fields.hasErrors('sales')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('sales')}" th:errors="*{sales}"></div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label class="form-label">備考</label>
+                <textarea th:field="*{note}" class="form-control" rows="3" maxlength="512"
+                          th:classappend="${#fields.hasErrors('note')} ? 'is-invalid'"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">確認</button>
+            <a th:href="@{/}" class="btn btn-secondary">戻る</a>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

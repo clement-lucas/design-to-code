@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('プロジェクト更新確認')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>プロジェクト更新確認</h2>
+    <p>以下の内容で更新します。よろしいですか？</p>
+
+    <table class="table table-bordered" th:object="${form}">
+        <tr><th class="table-light" style="width:30%">プロジェクトID</th><td th:text="*{projectId}"></td></tr>
+        <tr><th class="table-light">プロジェクト名</th><td th:text="*{projectName}"></td></tr>
+        <tr><th class="table-light">プロジェクト種別</th><td th:text="${projectTypes[form.projectType]}"></td></tr>
+        <tr><th class="table-light">プロジェクト分類</th><td th:text="${projectClasses[form.projectClass]}"></td></tr>
+        <tr><th class="table-light">プロジェクト開始日</th><td th:text="${#temporals.format(form.projectStartDate, 'yyyy/MM/dd')}"></td></tr>
+        <tr><th class="table-light">プロジェクト終了日</th><td th:text="${#temporals.format(form.projectEndDate, 'yyyy/MM/dd')}"></td></tr>
+        <tr>
+            <th class="table-light">組織</th>
+            <td>
+                <span th:each="org : ${organizations}" th:if="${org.organizationId == form.organizationId}" th:text="${org.organizationName}"></span>
+            </td>
+        </tr>
+        <tr><th class="table-light">顧客</th><td th:text="${clientName}"></td></tr>
+        <tr><th class="table-light">PM</th><td th:text="*{projectManager}"></td></tr>
+        <tr><th class="table-light">PL</th><td th:text="*{projectLeader}"></td></tr>
+        <tr><th class="table-light">売上高</th><td th:text="*{sales}"></td></tr>
+        <tr><th class="table-light">備考</th><td th:text="*{note}"></td></tr>
+    </table>
+
+    <form th:action="@{/project/update/execute}" th:object="${form}" method="post">
+        <input type="hidden" th:field="*{projectId}"/>
+        <input type="hidden" th:field="*{projectName}"/>
+        <input type="hidden" th:field="*{projectType}"/>
+        <input type="hidden" th:field="*{projectClass}"/>
+        <input type="hidden" th:field="*{projectStartDate}"/>
+        <input type="hidden" th:field="*{projectEndDate}"/>
+        <input type="hidden" th:field="*{organizationId}"/>
+        <input type="hidden" th:field="*{clientId}"/>
+        <input type="hidden" th:field="*{projectManager}"/>
+        <input type="hidden" th:field="*{projectLeader}"/>
+        <input type="hidden" th:field="*{sales}"/>
+        <input type="hidden" th:field="*{note}"/>
+        <input type="hidden" th:field="*{versionNo}"/>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">更新</button>
+            <button type="submit" name="back" value="back" class="btn btn-secondary">戻る</button>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

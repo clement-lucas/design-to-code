@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('ダウンロード要求完了')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>ダウンロード要求完了</h2>
+    <div class="alert alert-success">ダウンロード要求が完了しました。バッチ処理完了後にダウンロード可能になります。</div>
+    <a th:href="@{/}" class="btn btn-primary">TOPに戻る</a>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

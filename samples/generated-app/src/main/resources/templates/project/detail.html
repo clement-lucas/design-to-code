@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('プロジェクト詳細')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: header}"></nav>
+<div class="container">
+    <h2>プロジェクト詳細</h2>
+
+    <table class="table table-bordered" th:object="${project}">
+        <tr>
+            <th class="table-light" style="width:30%">プロジェクトID</th>
+            <td th:text="*{projectId}">1</td>
+        </tr>
+        <tr>
+            <th class="table-light">プロジェクト名</th>
+            <td th:text="*{projectName}">Project</td>
+        </tr>
+        <tr>
+            <th class="table-light">プロジェクト種別</th>
+            <td th:text="${projectTypeName}">Type</td>
+        </tr>
+        <tr>
+            <th class="table-light">プロジェクト分類</th>
+            <td th:text="${projectClassName}">Class</td>
+        </tr>
+        <tr>
+            <th class="table-light">プロジェクト開始日</th>
+            <td th:text="${#temporals.format(project.projectStartDate, 'yyyy/MM/dd')}">2024/01/01</td>
+        </tr>
+        <tr>
+            <th class="table-light">プロジェクト終了日</th>
+            <td th:text="${#temporals.format(project.projectEndDate, 'yyyy/MM/dd')}">2024/12/31</td>
+        </tr>
+        <tr>
+            <th class="table-light">組織</th>
+            <td th:text="${organizationName}">Organization</td>
+        </tr>
+        <tr>
+            <th class="table-light">顧客</th>
+            <td th:text="${clientName}">Client</td>
+        </tr>
+        <tr>
+            <th class="table-light">PM</th>
+            <td th:text="*{projectManager}">PM</td>
+        </tr>
+        <tr>
+            <th class="table-light">PL</th>
+            <td th:text="*{projectLeader}">PL</td>
+        </tr>
+        <tr>
+            <th class="table-light">売上高</th>
+            <td th:text="*{sales}">0</td>
+        </tr>
+        <tr>
+            <th class="table-light">備考</th>
+            <td th:text="*{note}">Note</td>
+        </tr>
+    </table>
+
+    <div class="d-flex gap-2">
+        <a th:href="@{/project/search}" class="btn btn-secondary">検索に戻る</a>
+        <a sec:authorize="hasRole('PROJECT_MANAGER')"
+           th:href="@{/project/update(projectId=${project.projectId})}"
+           class="btn btn-primary">変更</a>
+    </div>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
