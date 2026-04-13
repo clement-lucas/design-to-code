@@ -4,7 +4,7 @@ A GitHub Copilot custom agent that transforms design documents (Excel/Word) into
 
 ## What This Does
 
-The `@design-to-code` agent reads Japanese software design documents — screen specs, data models, batch definitions, interface layouts — and produces a complete, working Spring Boot application through a 3-phase workflow:
+The `@design-to-code` agent reads software design documents (Excel, Word design documents) — screen specs, data models, batch definitions, interface layouts — and produces a complete, working Spring Boot application through a 3-phase workflow:
 
 ```
 📄 Design Documents  →  🤖 Extract  →  🛠️ Generate  →  🏗️ Build & Run  →  🚀 Running App
