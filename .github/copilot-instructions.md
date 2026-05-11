@@ -4,10 +4,13 @@ This workspace contains a **design-to-code** system that transforms Japanese des
 
 ## Custom Agent
 
-Use `@design-to-code` agent for the full workflow. It orchestrates three phases:
+Use `@design-to-code` agent for the full workflow. It orchestrates four phases:
 1. **Extract** — Parse Office documents to extract specifications, images, and diagrams
 2. **Generate** — Build a complete Spring Boot application from the extracted specs
 3. **Build & Run** — Compile, fix errors, and start the application
+4. **Test** — Create test specifications, generate test code, execute tests, and verify results
+
+Use `@test-automation` agent for standalone test creation and execution.
 
 ## Design Document Conventions
 
@@ -28,6 +31,7 @@ Use `@design-to-code` agent for the full workflow. It orchestrates three phases:
 | Batch | Spring Batch 5.x |
 | Build | Maven |
 | Session | Spring Session JDBC |
+| Testing | JUnit 5, Mockito, MockMvc, Spring Security Test |
 
 ## Critical Rules
 
@@ -36,3 +40,6 @@ Use `@design-to-code` agent for the full workflow. It orchestrates three phases:
 3. **H2 compatibility** — Use `MERGE INTO ... KEY(...)` not `ON CONFLICT`, use `BYTEA` not `BLOB`
 4. **Schema DDL order matters** — Create referenced tables before referencing tables
 5. **Spring Batch 5.x API** — Use `JobBuilder`/`StepBuilder` with `JobRepository`, not deprecated factory classes
+6. **Test CSRF** — All MockMvc POST tests must include `.with(csrf())`
+7. **Test security context** — Authenticated endpoint tests must use `@WithMockUser` with correct roles
+8. **Test isolation** — Each test must be self-contained; use `@ActiveProfiles("test")` and `@Sql` for data setup

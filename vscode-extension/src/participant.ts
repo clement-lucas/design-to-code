@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { runExtractPhase } from './phases/extract';
 import { runGeneratePhase } from './phases/generate';
 import { runBuildPhase } from './phases/build';
+import { runTestPhase } from './phases/test';
 
 const PARTICIPANT_ID = 'design-to-code.agent';
 
@@ -31,6 +32,13 @@ Compiles the generated application and launches it:
 - On success, opens a terminal and starts the app with \`mvn spring-boot:run\`
 - App available at [http://localhost:8080](http://localhost:8080)
 
+**Phase 4 — Test** \`/test\`
+Creates test specifications, generates test code, and executes tests:
+- Analyzes source code and design documents to create テスト仕様書
+- Generates JUnit 5 + MockMvc + Mockito test code (単体/結合/システムテスト)
+- Runs tests with Maven and auto-fixes failures (up to 5 attempts)
+- Produces test result reports in Japanese
+
 ### Prerequisites
 - Python 3.x (for \`/extract\`)
 - JDK 17+ and Maven 3.9+ (for \`/build\`)
@@ -40,6 +48,7 @@ Compiles the generated application and launches it:
 @design-to-code /extract
 @design-to-code /generate output directory: samples/generated-app
 @design-to-code /build app directory: samples/generated-app
+@design-to-code /test app directory: samples/generated-app
 \`\`\`
 `;
 
@@ -62,11 +71,19 @@ export function registerParticipant(context: vscode.ExtensionContext): void {
                     command: 'build',
                 });
             }
+            if (result.metadata?.phase === 'build') {
+                followups.push({
+                    prompt: '/test',
+                    label: 'Proceed to Phase 4: Test',
+                    command: 'test',
+                });
+            }
             if (result.metadata?.phase === 'help') {
                 followups.push(
                     { prompt: '/extract', label: 'Start Phase 1: Extract design documents', command: 'extract' },
                     { prompt: '/generate', label: 'Start Phase 2: Generate code', command: 'generate' },
                     { prompt: '/build', label: 'Start Phase 3: Build & Run', command: 'build' },
+                    { prompt: '/test', label: 'Start Phase 4: Test', command: 'test' },
                 );
             }
             return followups;
@@ -105,6 +122,11 @@ async function handler(
             return runBuildPhase(stream, workspaceRoot, appDir, token);
         }
 
+        case 'test': {
+            const appDir = parseAppDir(request.prompt) ?? 'samples/generated-app';
+            return runTestPhase(stream, workspaceRoot, appDir, token);
+        }
+
         case 'help':
         default:
             stream.markdown(HELP_TEXT);
@@ -123,6 +145,9 @@ function inferCommand(prompt: string): string {
     }
     if (lower.includes('build') || lower.includes('compile') || lower.includes('run') || lower.includes('start')) {
         return 'build';
+    }
+    if (lower.includes('test') || lower.includes('テスト') || lower.includes('junit') || lower.includes('単体') || lower.includes('結合')) {
+        return 'test';
     }
     return 'help';
 }

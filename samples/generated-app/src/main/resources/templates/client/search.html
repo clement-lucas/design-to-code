@@ -39,7 +39,9 @@
                     <td th:text="${industryClasses[client.industryCode]}">Industry</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary"
-                                th:onclick="|selectClient('${client.clientId}', '${client.clientName}')|">選択</button>
+                                th:data-client-id="${client.clientId}"
+                                th:data-client-name="${client.clientName}"
+                                onclick="selectClient(this.dataset.clientId, this.dataset.clientName)">選択</button>
                     </td>
                 </tr>
             </tbody>
