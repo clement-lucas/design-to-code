@@ -12,7 +12,9 @@ venv/
 .vscode/
 .idea/
 *.iml
-vscode-extensions/
+
+# WIP - not ready for sync
+vscode-extension/
 
 # OS
 .DS_Store
