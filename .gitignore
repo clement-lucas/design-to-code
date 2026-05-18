@@ -12,6 +12,7 @@ venv/
 .vscode/
 .idea/
 *.iml
+vscode-extensions/
 
 # OS
 .DS_Store
