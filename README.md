@@ -4,11 +4,11 @@ A GitHub Copilot custom agent that transforms design documents (Excel/Word) into
 
 ## What This Does
 
-The `@design-to-code` agent reads software design documents (Excel, Word design documents) — screen specs, data models, batch definitions, interface layouts — and produces a complete, working Spring Boot application through a 3-phase workflow:
+The `@design-to-code` agent reads software design documents (Excel, Word design documents) — screen specs, data models, batch definitions, interface layouts — and produces a complete, working Spring Boot application through a 4-phase workflow:
 
 ```
-📄 Design Documents  →  🤖 Extract  →  🛠️ Generate  →  🏗️ Build & Run  →  🚀 Running App
-   (Excel/Word)         Phase 1        Phase 2          Phase 3          (localhost:8080)
+📄 Design Documents  →  🤖 Extract  →  🛠️ Generate  →  🏗️ Build & Run  →  🧪 Test  →  🚀 Verified App
+   (Excel/Word)         Phase 1        Phase 2          Phase 3          Phase 4    (localhost:8080)
 ```
 
 **Phase 1 — Extract**: Parses `.xlsx` and `.docx` files to extract text, tables, images, and DrawingML diagrams using Python scripts.
@@ -17,12 +17,15 @@ The `@design-to-code` agent reads software design documents (Excel, Word design 
 
 **Phase 3 — Build & Run**: Compiles the project, iteratively fixes errors, and starts the application.
 
+**Phase 4 — Test**: Creates test specifications, generates test code, executes tests, and verifies results. Can also be invoked standalone via the `@test-automation` agent.
+
 ## Repository Structure
 
 ```
 .github/
 ├── agents/
-│   └── design-to-code.agent.md       # Custom agent definition
+│   ├── design-to-code.agent.md       # Custom agent definition
+│   └── test-automation.agent.md       # Test automation agent definition
 ├── skills/
 │   ├── extract-design-docs/           # Skill: parse Office documents
 │   │   ├── SKILL.md
@@ -35,7 +38,9 @@ The `@design-to-code` agent reads software design documents (Excel, Word design 
 │   │   └── references/
 │   │       ├── type-mapping.md        # Japanese type → SQL → Java mapping
 │   │       └── code-templates.md      # Spring Boot code patterns
-│   └── build-and-run/                 # Skill: build, fix errors, run
+│   ├── build-and-run/                 # Skill: build, fix errors, run
+│   │   └── SKILL.md
+│   └── test-automation/               # Skill: test spec, code gen, execution
 │       └── SKILL.md
 └── copilot-instructions.md            # Workspace-level Copilot instructions
 
@@ -68,13 +73,20 @@ samples/
 
 ## How It Works
 
-### Custom Agent (`design-to-code.agent.md`)
+### Custom Agents
 
-The agent file defines the orchestrator that coordinates the 3-phase workflow. It specifies:
+**`design-to-code.agent.md`** — The primary orchestrator that coordinates the 4-phase workflow. It specifies:
 - **Description** — When Copilot should activate this agent (`@design-to-code`)
 - **Tools** — Permissions for file I/O, terminal execution, search, and sub-agent delegation
 - **Workflow** — The ordered phases and what each skill handles
 - **Constraints** — Rules to prevent common errors (e.g., never fabricate BCrypt hashes)
+
+**`test-automation.agent.md`** — A standalone test automation specialist (`@test-automation`) that can be invoked independently or as part of the design-to-code workflow. It handles:
+- **テスト仕様書作成** — Create structured test specifications from source code and design docs
+- **テストコード作成** — Generate JUnit 5 + Mockito + MockMvc test code
+- **テスト実施** — Execute tests with Maven, iteratively fix failures
+- **テスト結果確認** — Parse Surefire reports and generate result summaries
+- **UI/画面操作テスト** — Browser-based visual testing with Playwright screenshots
 
 ### Skills
 
@@ -85,6 +97,7 @@ Each skill is a self-contained knowledge module with a `SKILL.md` file and optio
 | `extract-design-docs` | Parse Office files to extract specs | 3 Python scripts for text, images, and DrawingML |
 | `generate-code` | Transform specs into Spring Boot code | Type mapping tables, code templates |
 | `build-and-run` | Compile, fix errors, start the app | Error reference table with common fixes |
+| `test-automation` | Create test specs, generate & run tests | Test patterns for unit/integration/system/UI tests |
 
 ### Workspace Instructions (`copilot-instructions.md`)
 
@@ -117,10 +130,16 @@ Provides global context to Copilot about the technology stack, design document c
    @design-to-code Please read the design documents in samples/design-docs/ and generate the application
    ```
 
-4. The agent will execute the 3-phase workflow automatically:
+4. The agent will execute the 4-phase workflow automatically:
    - Extract all 53 design documents
    - Generate a complete Spring Boot project
    - Build and start the application on `http://localhost:8080`
+   - Create test specifications, generate test code, and run tests
+
+5. **Or invoke test automation standalone**:
+   ```
+   @test-automation Please create and run tests for the application in samples/generated-app/
+   ```
 
 ### Run the Sample Generated App Directly
 
