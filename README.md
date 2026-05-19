@@ -44,7 +44,13 @@ The `@design-to-code` agent reads software design documents (Excel, Word design 
 │       └── SKILL.md
 └── copilot-instructions.md            # Workspace-level Copilot instructions
 
-samples/
+project/                               # ← Working directory for new executions
+├── design-docs/                       # Place YOUR design documents here
+├── extracted/                         # Extraction output (auto-generated)
+│   └── images/
+└── generated-app/                     # Generated application (auto-generated)
+
+samples/                               # Pre-built reference example (read-only)
 ├── design-docs/                       # Sample input: 53 Japanese design documents
 │   └── A1_プロジェクト管理システム/
 │       ├── 010_要件定義/              # Requirements & screen designs
@@ -125,25 +131,27 @@ Provides global context to Copilot about the technology stack, design document c
    code .
    ```
 
-3. **Invoke the agent** in Copilot Chat:
+3. **Place your design documents** in `project/design-docs/`
+
+4. **Invoke the agent** in Copilot Chat:
    ```
-   @design-to-code Please read the design documents in samples/design-docs/ and generate the application
+   @design-to-code Please read the design documents in project/design-docs/ and generate the application
    ```
 
-4. The agent will execute the 4-phase workflow automatically:
-   - Extract all 53 design documents
-   - Generate a complete Spring Boot project
+5. The agent will execute the 4-phase workflow automatically:
+   - Extract design documents → `project/extracted/`
+   - Generate a complete Spring Boot project → `project/generated-app/`
    - Build and start the application on `http://localhost:8080`
    - Create test specifications, generate test code, and run tests
 
-5. **Or invoke test automation standalone**:
+6. **Or invoke test automation standalone**:
    ```
-   @test-automation Please create and run tests for the application in samples/generated-app/
+   @test-automation Please create and run tests for the application in project/generated-app/
    ```
 
 ### Run the Sample Generated App Directly
 
-If you want to run the pre-generated sample application without invoking the agent:
+If you want to run the pre-built sample application (reference example) without invoking the agent:
 
 ```bash
 cd samples/generated-app

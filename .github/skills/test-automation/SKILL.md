@@ -15,9 +15,9 @@ Automatically generate test specifications, create test code, execute tests, and
 
 ## Prerequisites
 
-- A generated and compilable Spring Boot project with `pom.xml`
-- Design documents (extracted text) available for deriving test cases
-- Test specification documents in `030_アプリ設計/110_テスト仕様書/` (if available)
+- A generated and compilable Spring Boot project at `project/generated-app/` with `pom.xml`
+- Design documents (extracted text) available at `project/extracted/` for deriving test cases
+- Test specification documents in `project/design-docs/` under `030_アプリ設計/110_テスト仕様書/` (if available)
 - JDK 17+ and Maven 3.9+ installed
 
 ## Test Scope

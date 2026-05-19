@@ -13,6 +13,12 @@ Extract structured content from Japanese design documents (Office files) for dow
 - Analyzing `.xlsx` or `.docx` design specification files
 - Extracting screen mockups, ER diagrams, or architectural diagrams from Office documents
 
+## Working Directories
+
+- **Input**: `project/design-docs/` — Place design documents here
+- **Output**: `project/extracted/` — Text, images, and DrawingML are written here
+- The `samples/` folder contains a pre-built reference; always read from and write to `project/`
+
 ## Prerequisites
 
 - Python 3.x installed and available in PATH
@@ -105,10 +111,10 @@ Summarize key findings:
 
 ## Output
 
-After this skill completes, the following artifacts should exist:
-- `docs_output.txt` — Consolidated text from all design documents
-- `images_output/` — Extracted images organized by source document
-- `drawings_output.txt` — DrawingML text content
+After this skill completes, the following artifacts should exist in `project/extracted/`:
+- `extracted_text.txt` — Consolidated text from all design documents
+- `images/` — Extracted images organized by source document
+- `extracted_drawingml.txt` — DrawingML text content
 - A mental model of the system ready for code generation
 
 ## Tips

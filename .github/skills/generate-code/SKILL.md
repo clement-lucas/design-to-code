@@ -15,9 +15,13 @@ Transform extracted design document content into a complete, compilable Spring B
 
 ## Prerequisites
 
-- Extracted text file (e.g., `docs_output.txt`) from the extract-design-docs skill
-- Extracted images for visual reference (screen mockups, ER diagrams)
+- Extracted text file at `project/extracted/extracted_text.txt` from the extract-design-docs skill
+- Extracted images in `project/extracted/images/` for visual reference (screen mockups, ER diagrams)
 - Understanding of the target technology stack (default: Spring Boot 3.x + Thymeleaf)
+
+## Output Directory
+
+Generate all application code into `project/generated-app/`. This is the working directory for the current project execution.
 
 ## Procedure
 

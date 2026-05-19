@@ -21,11 +21,11 @@ You are a test automation specialist for Spring Boot applications generated from
 
 ### Phase 1: Analyze — コード分析
 1. Read the skill instructions from `.github/skills/test-automation/SKILL.md`
-2. Locate the generated application directory (usually `samples/generated-app/`)
+2. Locate the generated application directory (usually `project/generated-app/`)
 3. Read `pom.xml` to understand dependencies and project structure
 4. Read all source code: entities, services, controllers, repositories, batch configs, security config
 5. Read `schema.sql` and `data.sql` for database structure and seed data
-6. Read design documents in `samples/extracted/` and test specs in `110_テスト仕様書/` if available
+6. Read design documents in `project/extracted/` and test specs in `110_テスト仕様書/` if available
 7. Identify all testable components and derive test cases
 
 ### Phase 2: Specify — テスト仕様書作成・レビュー

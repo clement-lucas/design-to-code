@@ -14,9 +14,12 @@ Use `@test-automation` agent for standalone test creation and execution.
 
 ## Design Document Conventions
 
-- Design documents are stored in `samples/design-docs/` with Japanese folder names
+- Design documents are stored in `project/design-docs/` with Japanese folder names
+- Extracted content is written to `project/extracted/`
+- Generated application code is placed in `project/generated-app/`
 - Document IDs follow patterns: `WA*` (screens), `BA*` (batch), `N21AA*` (interfaces)
 - All text content is in Japanese (UTF-8)
+- The `samples/` folder contains a pre-built reference example; `project/` is the working directory for new executions
 
 ## Technology Stack
 
