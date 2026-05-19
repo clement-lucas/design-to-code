@@ -226,6 +226,81 @@ These are patterns discovered during development that are encoded into the agent
 5. **Spring Batch 5.x dropped factory classes** — Use `new JobBuilder(name, jobRepository)` instead of `JobBuilderFactory`.
 6. **DrawingML in Excel** — Architecture diagrams are often embedded as DrawingML XML, not images. Standard extraction misses them.
 
+## Customization Guide
+
+To adapt this system for your own design documents, test requirements, and tools, you need to modify specific sections in the agent and skill configuration files. Below is a map of **what to change and where**.
+
+### 1. Design Document Format & Structure
+
+If your design documents differ in format (e.g., Markdown, PDF, Google Sheets), language, or folder structure:
+
+| File to Modify | Section to Change | What to Customize |
+|----------------|-------------------|-------------------|
+| [`.github/skills/extract-design-docs/SKILL.md`](.github/skills/extract-design-docs/SKILL.md) | **Step 1: Discover Design Documents** | Change the expected folder structure (`010_要件定義/`, `020_方式設計/`, etc.) to match your project's directory layout |
+| [`.github/skills/extract-design-docs/SKILL.md`](.github/skills/extract-design-docs/SKILL.md) | **Step 5: Catalog and Summarize** | Change document ID patterns (`WA*`, `BA*`, `N21AA*`) to match your naming conventions |
+| [`.github/skills/extract-design-docs/scripts/`](.github/skills/extract-design-docs/scripts/) | All Python scripts | Replace or extend for non-Office formats (e.g., add PDF parsing with `PyMuPDF`, Markdown parsing, or API-based extraction) |
+| [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | **Design Document Categories** table | Update the category table to reflect your document types, ID patterns, and what content to extract from each |
+| [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Design Document Conventions** | Change the document storage path, ID patterns, and language/encoding settings |
+
+### 2. Document Language & Encoding
+
+If your documents are not in Japanese:
+
+| File to Modify | Section to Change | What to Customize |
+|----------------|-------------------|-------------------|
+| [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | `description` field (YAML frontmatter) | Remove Japanese trigger phrases, add your language equivalents |
+| [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | **Constraints** section | Change "PREFER Japanese comments" to your preferred comment language |
+| [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Design Document Conventions** | Change `All text content is in Japanese (UTF-8)` to your encoding |
+| [`.github/skills/generate-code/references/type-mapping.md`](.github/skills/generate-code/references/type-mapping.md) | **Standard Column Type Mapping** table | Replace Japanese type names (文字列, 数値, 日付, etc.) with your document's terminology |
+
+### 3. Target Technology Stack
+
+If you're generating something other than a Spring Boot + Thymeleaf app:
+
+| File to Modify | Section to Change | What to Customize |
+|----------------|-------------------|-------------------|
+| [`.github/skills/generate-code/SKILL.md`](.github/skills/generate-code/SKILL.md) | **Step 2: Create Project Structure** | Replace the Maven/Spring Boot project layout with your target framework (e.g., Node.js, .NET, Django) |
+| [`.github/skills/generate-code/SKILL.md`](.github/skills/generate-code/SKILL.md) | **Step 3: Generate pom.xml** | Replace with your build system (package.json, .csproj, requirements.txt) |
+| [`.github/skills/generate-code/references/type-mapping.md`](.github/skills/generate-code/references/type-mapping.md) | Entire file | Rewrite mappings for your target language (e.g., TypeScript types, C# types) |
+| [`.github/skills/generate-code/references/code-templates.md`](.github/skills/generate-code/references/code-templates.md) | Entire file | Replace Spring Boot patterns with your framework's patterns (controllers, models, views) |
+| [`.github/skills/build-and-run/SKILL.md`](.github/skills/build-and-run/SKILL.md) | **Build commands & error table** | Replace `mvn` commands with your build tool; update the error-fix reference table for your stack |
+| [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Technology Stack** table | Update to reflect your framework, language, database, and tooling |
+| [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Critical Rules** section | Replace Spring-specific rules (BCrypt, H2, Batch 5.x) with your framework's gotchas |
+
+### 4. Test Framework & Requirements
+
+If you use different testing tools or have different test scope requirements:
+
+| File to Modify | Section to Change | What to Customize |
+|----------------|-------------------|-------------------|
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Test Technology Stack** table | Replace JUnit/Mockito/MockMvc with your test framework (Jest, pytest, xUnit, Cypress, etc.) |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Workflow Phases** | Add/remove phases (e.g., add performance testing, remove UI testing if not needed) |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Phase 5: UI/画面操作テスト** | Replace Playwright browser tools with your UI testing approach (Selenium, Cypress, Puppeteer) |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Constraints** section | Change "Japanese output" requirement and `@DisplayName` conventions to match your language |
+| [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Test Scope** table | Change test levels (単体/結合/システム) and frameworks to match your testing strategy |
+| [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Phase 1: Step 1.2** (test spec template) | Change the test specification format to match your team's template |
+| [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Test code patterns** | Replace MockMvc/Mockito patterns with your framework's equivalent test patterns |
+| [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Critical Rules** #6–#8 | Replace Spring Security Test rules with your framework's test requirements |
+
+### 5. Agent Trigger & Scope
+
+To change when and how the agents activate:
+
+| File to Modify | Section to Change | What to Customize |
+|----------------|-------------------|-------------------|
+| [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | `description` (YAML frontmatter) | Change trigger phrases to match how users will invoke the agent |
+| [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | `tools` (YAML frontmatter) | Add/remove tool permissions (e.g., add `browser` for web-based extraction) |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | `description` (YAML frontmatter) | Change trigger phrases for test automation invocation |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | `tools` (YAML frontmatter) | Remove `browser` if you don't need UI testing; add other tools as needed |
+
+### Quick-Start Checklist for Customization
+
+1. **Different document format?** → Modify extraction scripts + SKILL.md step 1
+2. **Different language (not Japanese)?** → Update type-mapping.md, agent descriptions, copilot-instructions.md
+3. **Different target framework?** → Rewrite generate-code SKILL.md, code-templates.md, type-mapping.md, build-and-run SKILL.md
+4. **Different test tools?** → Update test-automation agent.md + SKILL.md test scope & patterns
+5. **Different folder layout?** → Update extract-design-docs SKILL.md step 1 + copilot-instructions.md conventions
+
 ## License
 
 This project is provided as a demonstration of GitHub Copilot custom agent capabilities. The sample design documents are adapted from publicly available Japanese software engineering templates.
