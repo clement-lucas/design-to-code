@@ -52,12 +52,12 @@ project/                               # ← Working directory for new execution
 
 samples/                               # Pre-built reference example (read-only)
 ├── design-docs/                       # Sample input: 53 Japanese design documents
-│   └── A1_プロジェクト管理システム/
-│       ├── 010_要件定義/              # Requirements & screen designs
-│       ├── 020_方式設計/              # Architecture & dev standards
-│       ├── 030_アプリ設計/            # Application design (screens, batch, DB)
+│   └── A1_プロジェクト管理システム/   # Project Management System
+│       ├── 010_要件定義/              # Requirements Definition & screen designs
+│       ├── 020_方式設計/              # Architecture Design & dev standards
+│       ├── 030_アプリ設計/            # Application Design (screens, batch, DB)
 │       ├── 080_ツール/                # Tools
-│       └── 100_レビュー記録/          # Review records
+│       └── 100_レビュー記録/          # Review Records
 └── generated-app/                     # Sample output: generated Spring Boot app
     ├── pom.xml
     └── src/main/
@@ -244,7 +244,7 @@ If your design documents differ in format (e.g., Markdown, PDF, Google Sheets), 
 
 | File to Modify | Section to Change | What to Customize |
 |----------------|-------------------|-------------------|
-| [`.github/skills/extract-design-docs/SKILL.md`](.github/skills/extract-design-docs/SKILL.md) | **Step 1: Discover Design Documents** | Change the expected folder structure (`010_要件定義/`, `020_方式設計/`, etc.) to match your project's directory layout |
+| [`.github/skills/extract-design-docs/SKILL.md`](.github/skills/extract-design-docs/SKILL.md) | **Step 1: Discover Design Documents** | Change the expected folder structure (`010_要件定義/` (Requirements Definition), `020_方式設計/` (Architecture Design), etc.) to match your project's directory layout |
 | [`.github/skills/extract-design-docs/SKILL.md`](.github/skills/extract-design-docs/SKILL.md) | **Step 5: Catalog and Summarize** | Change document ID patterns (`WA*`, `BA*`, `N21AA*`) to match your naming conventions |
 | [`.github/skills/extract-design-docs/scripts/`](.github/skills/extract-design-docs/scripts/) | All Python scripts | Replace or extend for non-Office formats (e.g., add PDF parsing with `PyMuPDF`, Markdown parsing, or API-based extraction) |
 | [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | **Design Document Categories** table | Update the category table to reflect your document types, ID patterns, and what content to extract from each |
@@ -259,7 +259,7 @@ If your documents are not in Japanese:
 | [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | `description` field (YAML frontmatter) | Remove Japanese trigger phrases, add your language equivalents |
 | [`.github/agents/design-to-code.agent.md`](.github/agents/design-to-code.agent.md) | **Constraints** section | Change "PREFER Japanese comments" to your preferred comment language |
 | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Design Document Conventions** | Change `All text content is in Japanese (UTF-8)` to your encoding |
-| [`.github/skills/generate-code/references/type-mapping.md`](.github/skills/generate-code/references/type-mapping.md) | **Standard Column Type Mapping** table | Replace Japanese type names (文字列, 数値, 日付, etc.) with your document's terminology |
+| [`.github/skills/generate-code/references/type-mapping.md`](.github/skills/generate-code/references/type-mapping.md) | **Standard Column Type Mapping** table | Replace Japanese type names (文字列 (String), 数値 (Numeric), 日付 (Date), etc.) with your document's terminology |
 
 ### 3. Target Technology Stack
 
@@ -283,9 +283,9 @@ If you use different testing tools or have different test scope requirements:
 |----------------|-------------------|-------------------|
 | [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Test Technology Stack** table | Replace JUnit/Mockito/MockMvc with your test framework (Jest, pytest, xUnit, Cypress, etc.) |
 | [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Workflow Phases** | Add/remove phases (e.g., add performance testing, remove UI testing if not needed) |
-| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Phase 5: UI/画面操作テスト** | Replace Playwright browser tools with your UI testing approach (Selenium, Cypress, Puppeteer) |
+| [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Phase 5: UI/Screen Operation Testing (画面操作テスト)** | Replace Playwright browser tools with your UI testing approach (Selenium, Cypress, Puppeteer) |
 | [`.github/agents/test-automation.agent.md`](.github/agents/test-automation.agent.md) | **Constraints** section | Change "Japanese output" requirement and `@DisplayName` conventions to match your language |
-| [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Test Scope** table | Change test levels (単体/結合/システム) and frameworks to match your testing strategy |
+| [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Test Scope** table | Change test levels (単体 (Unit)/結合 (Integration)/システム (System)) and frameworks to match your testing strategy |
 | [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Phase 1: Step 1.2** (test spec template) | Change the test specification format to match your team's template |
 | [`.github/skills/test-automation/SKILL.md`](.github/skills/test-automation/SKILL.md) | **Test code patterns** | Replace MockMvc/Mockito patterns with your framework's equivalent test patterns |
 | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | **Critical Rules** #6–#8 | Replace Spring Security Test rules with your framework's test requirements |
