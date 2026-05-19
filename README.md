@@ -88,11 +88,11 @@ samples/                               # Pre-built reference example (read-only)
 - **Constraints** — Rules to prevent common errors (e.g., never fabricate BCrypt hashes)
 
 **`test-automation.agent.md`** — A standalone test automation specialist (`@test-automation`) that can be invoked independently or as part of the design-to-code workflow. It handles:
-- **テスト仕様書作成** — Create structured test specifications from source code and design docs
-- **テストコード作成** — Generate JUnit 5 + Mockito + MockMvc test code
-- **テスト実施** — Execute tests with Maven, iteratively fix failures
-- **テスト結果確認** — Parse Surefire reports and generate result summaries
-- **UI/画面操作テスト** — Browser-based visual testing with Playwright screenshots
+- **Test Specification Creation / テスト仕様書作成** — Create structured test specifications from source code and design docs
+- **Test Code Generation / テストコード作成** — Generate JUnit 5 + Mockito + MockMvc test code
+- **Test Execution / テスト実施** — Execute tests with Maven, iteratively fix failures
+- **Test Result Verification / テスト結果確認** — Parse Surefire reports and generate result summaries
+- **UI/Screen Operation Testing / UI/画面操作テスト** — Browser-based visual testing with Playwright screenshots
 
 ### Skills
 
